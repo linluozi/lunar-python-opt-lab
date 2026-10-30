@@ -16,6 +16,8 @@ Upstream: https://github.com/6tail/lunar-python
 
 三个规模加速比的中位数：**27.81x**（5 次计时样本的中位数；warmup 3 次不计入）。原始样本在 `benchmark/raw/`，每个规模 5 个文件，共 30 个。
 
+口径说明：warmup 的 3 遍已经把 24 年窗口内的 `LunarYear` 全部放进缓存，因此表中是“重复跨年查询”的稳定态数字；单次冷启动转换不会变快（缓存未命中时仍要构造一次）。该负载对应批量换算跨年份日期的场景。另：字典缓存没有淘汰策略，长期存活进程若访问大量不同年份会持续持有对应 `LunarYear`；本基准的 24 年窗口下峰值 RSS 见 G5。
+
 改动只有 `lunar_python/LunarYear.py` 一个文件：`git diff --stat` 为 6 insertions / 8 deletions（`patch.diff`，1865 字节）。对象构造后不可变（无 setter，`compute()` 只在 `__init__` 调用），因此复用实例不改变任何返回值；线程锁保留。
 
 ## 差分测试
@@ -38,7 +40,7 @@ RESULT: IDENTICAL (byte-for-byte)
 | G2 差分一致 | 通过：1243 组，0 差异，两个 sha256 相同 | `python3 tests/test_diff.py --baseline /tmp/lunar-opt-lab-base --optimized /tmp/lunar-opt-lab-opt` |
 | G3 中位加速 ≥1.15x | 通过：27.81x | 见下方基准命令，读取 `benchmark/*.json` 的 `results[].median_s` |
 | G4 最大规模不退化 ≥0.95x | 通过：720 日期规模 27.81x | 同上，最大规模 `scale=720` |
-| G5 峰值 RSS ≤1.10x | 通过：16188 KB → 16256 KB，比值 1.004 | `/usr/bin/time -v python3 benchmark/bench.py --lib /tmp/lunar-opt-lab-base --impl baseline --out /tmp/g5-base.json --raw-dir /tmp/g5raw`（优化侧同命令换 `--lib /tmp/lunar-opt-lab-opt --impl optimized`） |
+| G5 峰值 RSS ≤1.10x | 通过：`/usr/bin/time -v` 16188 KB → 16256 KB，比值 1.004；`benchmark/*.json` 内 `resource.ru_maxrss` 自报 15744 → 15872 KB，比值 1.008 | `/usr/bin/time -v python3 benchmark/bench.py --lib /tmp/lunar-opt-lab-base --impl baseline --out /tmp/g5-base.json --raw-dir /tmp/g5raw`（优化侧同命令换 `--lib /tmp/lunar-opt-lab-opt --impl optimized`） |
 
 所有计时样本的相对标准差最大为 1.21%（优化侧 scale=80），其余均 <1%，未观察到 GC/页错误导致的明显噪声。
 
