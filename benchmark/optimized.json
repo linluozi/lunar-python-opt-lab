@@ -1,0 +1,80 @@
+{
+  "impl": "optimized",
+  "lib": "/tmp/lunar-opt",
+  "command": "/usr/bin/python3 benchmark/bench.py --lib /tmp/lunar-opt --impl optimized --out benchmark/optimized.json --upstream-tests python3 -m unittest discover -s test -p '*Test.py' => 241 passed, 0 failed (1.04s), run in /tmp/lunar-opt",
+  "seed": 20261030,
+  "warmup": 3,
+  "samples_per_scale": 5,
+  "scales": [
+    80,
+    240,
+    720
+  ],
+  "window": [
+    "2000-01-01",
+    "2023-12-31"
+  ],
+  "distinct_years_in_window": 24,
+  "timer": "time.perf_counter",
+  "environment": {
+    "cpu": "AMD EPYC 7K62 48-Core Processor",
+    "mem_total_kb": 3812564,
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "machine": "x86_64"
+  },
+  "peak_rss_kb": 15872,
+  "upstream_tests": "python3 -m unittest discover -s test -p '*Test.py' => 241 passed, 0 failed (1.04s), run in /tmp/lunar-opt",
+  "note": "",
+  "results": [
+    {
+      "scale": 80,
+      "n_dates": 80,
+      "distinct_years": 24,
+      "samples_s": [
+        0.01422395696863532,
+        0.014585906639695168,
+        0.014526444021612406,
+        0.014767067041248083,
+        0.014499503653496504
+      ],
+      "median_s": 0.014526444021612406,
+      "p25_s": 0.014499503653496504,
+      "p75_s": 0.014585906639695168,
+      "rel_stdev": 0.012066111120422243
+    },
+    {
+      "scale": 240,
+      "n_dates": 240,
+      "distinct_years": 24,
+      "samples_s": [
+        0.04327914910390973,
+        0.044044076930731535,
+        0.04359949100762606,
+        0.043579342775046825,
+        0.043774459045380354
+      ],
+      "median_s": 0.04359949100762606,
+      "p25_s": 0.043579342775046825,
+      "p75_s": 0.043774459045380354,
+      "rel_stdev": 0.005756109462318349
+    },
+    {
+      "scale": 720,
+      "n_dates": 720,
+      "distinct_years": 24,
+      "samples_s": [
+        0.1298059611581266,
+        0.12971913907676935,
+        0.1294839158654213,
+        0.13000818016007543,
+        0.1295708203688264
+      ],
+      "median_s": 0.12971913907676935,
+      "p25_s": 0.1295708203688264,
+      "p75_s": 0.1298059611581266,
+      "rel_stdev": 0.0014147717747755764
+    }
+  ]
+}

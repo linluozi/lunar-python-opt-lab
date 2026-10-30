@@ -1,0 +1,12 @@
+{
+  "impl": "baseline",
+  "scale": 720,
+  "sample_index": 0,
+  "seconds": 3.5811353819444776,
+  "n_dates": 720,
+  "distinct_years": 24,
+  "seed": 20261030,
+  "timer": "time.perf_counter",
+  "python": "3.12.3",
+  "lib": "/tmp/lunar-base"
+}

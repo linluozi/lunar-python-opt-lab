@@ -1,0 +1,12 @@
+{
+  "impl": "optimized",
+  "scale": 240,
+  "sample_index": 1,
+  "seconds": 0.044044076930731535,
+  "n_dates": 240,
+  "distinct_years": 24,
+  "seed": 20261030,
+  "timer": "time.perf_counter",
+  "python": "3.12.3",
+  "lib": "/tmp/lunar-opt"
+}
